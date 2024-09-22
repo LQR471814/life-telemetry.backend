@@ -1,0 +1,9 @@
+version: "2"
+sql:
+  - engine: "sqlite"
+    queries: "services/eczema/db/query.sql"
+    schema: "services/eczema/db/schema.sql"
+    gen:
+      go:
+        package: "eczemadb"
+        out: "services/eczema/db"

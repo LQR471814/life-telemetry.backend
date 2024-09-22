@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package services.eczema.v1;
+
+enum Location {
+  SCALP_F = 0;
+  SCALP_B = 1;
+  SCALP_L = 2;
+  SCALP_R = 3;
+
+  FACE_LT = 4;
+  FACE_RT = 5;
+
+  EAR_LT = 6;
+  EAR_LB = 7;
+  EAR_RT = 8;
+  EAR_RB = 9;
+
+  NECK_FL = 10;
+  NECK_FR = 11;
+  NECK_BL = 12;
+  NECK_BR = 13;
+
+  SHOULDER_L = 14;
+  SHOULDER_R = 15;
+
+  ELBOW_LC = 16;
+  ELBOW_RC = 17;
+  ELBOW_L_UP = 18;
+  ELBOW_R_UP = 19;
+
+  CHEST_PEC_L = 20;
+  CHEST_PEC_R = 21;
+  CHEST_CENTER = 22;
+
+  BELLY_UP = 23;
+  BELLY_LO = 24;
+
+  TORSO_FL_UP = 25;
+  TORSO_FL_LO = 26;
+  TORSO_FR_UP = 27;
+  TORSO_FR_LO = 28;
+  TORSO_BL = 29;
+  TORSO_BR = 30;
+
+  BACK_TL = 31;
+  BACK_TR = 32;
+
+  WAIST_FL = 33;
+  WAIST_FR = 34;
+  WAIST_SL = 35;
+  WAIST_SR = 36;
+
+  CROTCH_FR = 37;
+  CROTCH_FL = 38;
+  CROTCH_B = 39;
+
+  BUTT_L = 40;
+  BUTT_R = 41;
+
+  THIGH_FL = 42;
+  THIGH_FR = 43;
+  THIGH_BL = 44;
+  THIGH_BR = 45;
+  THIGH_SL = 46;
+  THIGH_SR = 47;
+
+  KNEE_FL = 48;
+  KNEE_FR = 49;
+  KNEE_BL = 50;
+  KNEE_BR = 51;
+  KNEE_SL = 52;
+  KNEE_SR = 53;
+
+  LEG_FL = 54;
+  LEG_BL = 55;
+  LEG_FR = 56;
+  LEG_BR = 57;
+}
+
+enum Action {
+  NOTHING = 0;
+  SCRATCH = 1;
+  APPLY_LOTION = 2;
+  APPLY_STEROIDS = 3;
+}
+
+enum Variant {
+  SCALING = 0;
+  DOTTING = 1;
+  SCALP = 2;
+}
+
+message Event {
+  uint64 time = 1;
+  uint64 duration = 2;
+
+  // how bad the eczema is in that region right now
+  // - 0 = completely clear
+  // - 0.25 = minimal issues
+  // - 0.5 = some issues
+  // - 0.75 = significant issues
+  // - 1 = in dire need of help
+  float state = 3;
+  Variant variant = 4;
+  Location location = 5;
+  Action action = 6;
+}
+
+// Push
+message PushRequest {
+  repeated Event events = 1;
+}
+message PushResponse {}
+
+service EczemaService {
+  rpc Push(PushRequest) returns (PushResponse);
+}
+
