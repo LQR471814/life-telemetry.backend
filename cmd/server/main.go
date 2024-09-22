@@ -28,5 +28,5 @@ func main() {
 		connect.WithInterceptors(utils.SlogInterceptor()),
 	))
 
-	utils.ListenGRPC(mux, 8000)
+	utils.ListenGRPC(mux, 4000)
 }
